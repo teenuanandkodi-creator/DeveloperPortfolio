@@ -1,0 +1,10 @@
+[
+    {
+        "type": "Income",
+        "amount": 5000.0
+    },
+    {
+        "type": "Expense",
+        "amount": 1500.0
+    }
+]
