@@ -1,79 +1,151 @@
+from src.models import Transaction
+from datetime import datetime
 from src.storage import save_transactions
+
+INCOME_CATEGORIES = [
+    "Salary",
+    "Freelancing",
+    "Investment",
+    "Business",
+    "Gift",
+    "Other"
+]
+
+EXPENSE_CATEGORIES = [
+    "Food",
+    "Transport",
+    "Shopping",
+    "Bills",
+    "Entertainment",
+    "Healthcare",
+    "Other"
+]
+
+def select_category(category_list):
+
+    print("\nAvailable Categories")
+
+    for index, category in enumerate(category_list, start=1):
+        print(f"{index}. {category}")
+
+    while True:
+
+        try:
+
+            choice = int(input("\nSelect category: "))
+
+            if 1 <= choice <= len(category_list):
+                return category_list[choice - 1]
+
+            print("Please choose a valid option.")
+
+        except ValueError:
+            print("Please enter a number.")
 
 
 def add_income(transactions):
 
-    try:
+    while True:
 
-        amount = float(input("Enter income amount: ₹"))
+        try:
 
-        transaction = {
-            "type": "Income",
-            "amount": amount
-        }
+            amount = float(input("Enter income amount: ₹"))
 
-        transactions.append(transaction)
+            if amount <= 0:
+                print("Amount must be greater than zero.")
+                continue
 
-        save_transactions(transactions)
+            break
 
-        print(f"\nIncome of ₹{amount:.2f} added successfully.")
+        except ValueError:
+            print("Please enter a valid number.")
 
-    except ValueError:
+    category = select_category(INCOME_CATEGORIES)
 
-        print("Invalid amount.")
+    transaction = {
+        "type": "Income",
+        "amount": amount,
+        "category": category,
+        "date": datetime.now().strftime("%Y-%m-%d")
+    }
+
+    transactions.append(transaction)
+
+    save_transactions(transactions)
+
+    print("\nIncome added successfully.")
 
 
 def add_expense(transactions):
 
-    try:
+    while True:
 
-        amount = float(input("Enter expense amount: ₹"))
+        try:
 
-        transaction = {
-            "type": "Expense",
-            "amount": amount
-        }
+            amount = float(input("Enter expense amount: ₹"))
 
-        transactions.append(transaction)
+            if amount <= 0:
+                print("Amount must be greater than zero.")
+                continue
 
-        save_transactions(transactions)
+            break
 
-        print(f"\nExpense of ₹{amount:.2f} added successfully.")
+        except ValueError:
+            print("Please enter a valid number.")
 
-    except ValueError:
+    category = select_category(EXPENSE_CATEGORIES)
 
-        print("Invalid amount.")
+    transaction = {
+        "type": "Expense",
+        "amount": amount,
+        "category": category,
+        "date": datetime.now().strftime("%Y-%m-%d")
+    }
+
+    transactions.append(transaction)
+
+    save_transactions(transactions)
+
+    print("\nExpense added successfully.")
 
 
 def view_transactions(transactions):
 
     if not transactions:
-
-        print("\nNo transactions available.")
+        print("\nNo transactions found.")
         return
 
-    print("\nTransaction History")
-    print("-" * 45)
+    print("\n" + "-" * 75)
+    print(f"{'No.':<5}{'Type':<10}{'Category':<18}{'Amount':<15}{'Date'}")
+    print("-" * 75)
 
     for index, transaction in enumerate(transactions, start=1):
 
         print(
-            f"{index}. {transaction['type']:<8} ₹{transaction['amount']:.2f}"
+            f"{index:<5}"
+            f"{transaction['type']:<10}"
+            f"{transaction['category']:<18}"
+            f"₹{transaction['amount']:<14.2f}"
+            f"{transaction['date']}"
         )
 
 
 def view_balance(transactions):
 
-    balance = 0
+    income = 0
+    expense = 0
 
     for transaction in transactions:
 
         if transaction["type"] == "Income":
-
-            balance += transaction["amount"]
-
+            income += transaction["amount"]
         else:
+            expense += transaction["amount"]
 
-            balance -= transaction["amount"]
+    balance = income - expense
 
-    print(f"\nCurrent Balance : ₹{balance:.2f}")
+    print("\n" + "-" * 40)
+    print(f"Total Income  : ₹{income:.2f}")
+    print(f"Total Expense : ₹{expense:.2f}")
+    print(f"Balance       : ₹{balance:.2f}")
+    print("-" * 40)
