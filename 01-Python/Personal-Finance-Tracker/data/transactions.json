@@ -6,5 +6,9 @@
     {
         "type": "Expense",
         "amount": 1500.0
+    },
+    {
+        "type": "Income",
+        "amount": 10000.0
     }
 ]
