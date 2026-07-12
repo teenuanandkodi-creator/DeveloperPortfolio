@@ -1,31 +1,39 @@
-MENU_WIDTH = 45
+MENU_WIDTH = 50
 
 
 def display_menu():
     print("\n" + "=" * MENU_WIDTH)
-    print("       PERSONAL FINANCE TRACKER")
+    print("        PERSONAL FINANCE TRACKER")
     print("=" * MENU_WIDTH)
     print("1. Add Income")
     print("2. Add Expense")
     print("3. View Transactions")
     print("4. View Balance")
-    print("5. Help")
-    print("6. Exit")
+    print("5. Search Transactions")
+    print("6. Edit Transaction")
+    print("7. Delete Transaction")
+    print("8. Help")
+    print("9. Reports")
+    print("10. Exit")
     print("=" * MENU_WIDTH)
 
 
 def display_help():
     print("\n" + "=" * MENU_WIDTH)
-    print("               HELP MENU")
+    print("HELP")
     print("=" * MENU_WIDTH)
     print("1 -> Add Income")
     print("2 -> Add Expense")
     print("3 -> View Transactions")
     print("4 -> View Balance")
-    print("5 -> Help")
-    print("6 -> Exit")
+    print("5 -> Search Transactions")
+    print("6 -> Edit Transaction")
+    print("7 -> Delete Transaction")
+    print("8 -> Help")
+    print("9 -> Reports")
+    print("10 -> Exit")
     print("=" * MENU_WIDTH)
 
 
 def get_user_choice():
-    return input("Enter your choice (1-6): ")
+    return input("Enter your choice (1-10): ")

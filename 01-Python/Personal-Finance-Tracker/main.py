@@ -11,8 +11,11 @@ from src.transactions import (
     add_expense,
     view_transactions,
     view_balance,
+    search_transactions,
+    edit_transaction,
+    delete_transaction,
+    generate_report
 )
-
 
 def process_choice(choice, transactions):
 
@@ -34,9 +37,26 @@ def process_choice(choice, transactions):
 
     elif choice == "5":
 
-        display_help()
-
+        search_transactions(transactions)
+    
     elif choice == "6":
+
+        edit_transaction(transactions)
+    
+    elif choice == "7":
+
+        delete_transaction(transactions)
+    
+    elif choice == "8":
+
+        display_help()
+    
+    elif choice == "9":
+
+        generate_report(transactions)
+    
+
+    elif choice == "10":
 
         print("\nThank you for using Personal Finance Tracker!")
 

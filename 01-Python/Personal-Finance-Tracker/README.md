@@ -19,3 +19,8 @@ A command-line application built in Python to manage personal income and expense
 - JSON
 - Git
 - VS Code
+
+
+
+
+source .venv/bin/activate
