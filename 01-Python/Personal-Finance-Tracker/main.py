@@ -4,6 +4,12 @@ from src.menu import (
     get_user_choice,
 )
 
+from src.export_import import(
+    export_to_csv,
+    import_from_csv,
+    create_backup1
+)
+
 from src.storage import load_transactions
 
 from src.transactions import (
@@ -49,14 +55,26 @@ def process_choice(choice, transactions):
     
     elif choice == "8":
 
-        display_help()
+        generate_report(transactions)
     
     elif choice == "9":
 
-        generate_report(transactions)
+        export_to_csv(transactions)
+    
+    elif choice == "10":
+
+        import_from_csv(transactions)
+    
+    elif choice == "11":
+
+        create_backup()
+    
+    elif choice == "12":
+
+        display_help()
     
 
-    elif choice == "10":
+    elif choice == "13":
 
         print("\nThank you for using Personal Finance Tracker!")
 
