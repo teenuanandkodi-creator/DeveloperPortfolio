@@ -1,26 +1,60 @@
-# Personal Finance Tracker
+# 💰 Personal Finance Tracker
 
-## Overview
-
-A command-line application built in Python to manage personal income and expenses.
+A command-line Personal Finance Tracker built with Python.
 
 ## Features
 
-- Add income
-- Add expenses
-- View balance
-- Save data
-- Load data
-- Monthly summary
+- Add Income
+- Add Expenses
+- View Transactions
+- View Balance
+- Search Transactions
+- Edit Transactions
+- Delete Transactions
+- Financial Reports
+- Export to CSV
+- Import from CSV
+- Automatic JSON Storage
+- Data Backup
 
-## Technologies
+## Technologies Used
 
 - Python 3
 - JSON
+- CSV
 - Git
-- VS Code
+- GitHub
 
+## Project Structure
 
+```
+src/
+data/
+tests/
+docs/
+main.py
+```
 
+## How to Run
 
-source .venv/bin/activate
+```bash
+python main.py
+```
+
+## Screenshots
+
+(Add screenshots later.)
+
+## Future Improvements
+
+- GUI using Tkinter
+- SQLite Database
+- User Authentication
+- Monthly Budget Tracking
+- Charts and Graphs
+
+## Author
+
+Teenu Anand Kodi
+MSc Artificial Intelligence
+Berlin School of Business and Innovation
