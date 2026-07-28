@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
 
     <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+          content="width=device-width, initial-scale=1">
 
     <title>Employee Leave Management System</title>
 
@@ -17,19 +17,41 @@
 
 <body>
 
-    <header>
+<header>
 
-        <h1>Employee Leave Management System</h1>
+<h1>Employee Leave Management System</h1>
 
-    </header>
+<nav>
 
-    <main>
+<a href="/">Home</a>
 
-        {% block content %}
+<a href="/employees">Employees</a>
 
-        {% endblock %}
+<a href="/leave">Leave</a>
 
-    </main>
+<a href="/about">About</a>
+
+</nav>
+
+</header>
+
+<main>
+
+{% block content %}
+
+{% endblock %}
+
+</main>
+
+<footer>
+
+<p>
+
+Developed by Teenu Anand
+
+</p>
+
+</footer>
 
 </body>
 
