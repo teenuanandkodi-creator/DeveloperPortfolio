@@ -8,55 +8,39 @@ Employees
 
 </h2>
 
-<table class="table table-bordered table-hover">
+<table class="table table-striped table-hover">
 
-<thead class="table-primary">
+    <thead class="table-primary">
 
-<tr>
+        <tr>
 
-<th>ID</th>
+            <th>Employee ID</th>
 
-<th>Name</th>
+            <th>Name</th>
 
-<th>Department</th>
+            <th>Department</th>
 
-</tr>
+        </tr>
 
-</thead>
+    </thead>
 
-<tbody>
+    <tbody>
 
-<tr>
+        {% for employee in employees %}
 
-<td>EMP001</td>
+        <tr>
 
-<td>Teenu Anand</td>
+            <td>{{ employee["employee_id"] }}</td>
 
-<td>Artificial Intelligence</td>
+            <td>{{ employee["name"] }}</td>
 
-</tr>
+            <td>{{ employee["department"] }}</td>
 
-<tr>
+        </tr>
 
-<td>EMP002</td>
+        {% endfor %}
 
-<td>John Smith</td>
-
-<td>HR</td>
-
-</tr>
-
-<tr>
-
-<td>EMP003</td>
-
-<td>Alice Brown</td>
-
-<td>Finance</td>
-
-</tr>
-
-</tbody>
+    </tbody>
 
 </table>
 
