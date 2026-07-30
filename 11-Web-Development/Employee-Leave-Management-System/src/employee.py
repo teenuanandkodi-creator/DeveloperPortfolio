@@ -59,3 +59,22 @@ def insert_sample_data():
     connection.commit()
 
     connection.close()
+
+def add_employee(employee_id, name, department):
+
+    connection = get_connection()
+
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        INSERT INTO employees
+        (employee_id, name, department)
+        VALUES (?, ?, ?)
+        """,
+        (employee_id, name, department)
+    )
+
+    connection.commit()
+
+    connection.close()
