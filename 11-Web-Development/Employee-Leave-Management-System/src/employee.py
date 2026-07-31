@@ -78,3 +78,47 @@ def add_employee(employee_id, name, department):
     connection.commit()
 
     connection.close()
+
+def get_employee_by_id(id):
+
+    connection = get_connection()
+
+    cursor = connection.cursor()
+
+    cursor.execute(
+        "SELECT * FROM employees WHERE id=?",
+        (id,)
+    )
+
+    employee = cursor.fetchone()
+
+    connection.close()
+
+    return employee
+
+
+def update_employee(id, employee_id, name, department):
+
+    connection = get_connection()
+
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        UPDATE employees
+        SET employee_id=?,
+            name=?,
+            department=?
+        WHERE id=?
+        """,
+        (
+            employee_id,
+            name,
+            department,
+            id
+        )
+    )
+
+    connection.commit()
+
+    connection.close()
