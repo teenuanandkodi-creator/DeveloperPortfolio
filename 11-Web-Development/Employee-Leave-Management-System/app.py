@@ -13,7 +13,9 @@ from src.employee import (
     insert_sample_data,
     add_employee,
     get_employee_by_id,
-    update_employee
+    update_employee,
+    delete_employee,
+    get_total_employees
 
 )
 
@@ -27,8 +29,12 @@ insert_sample_data()
 @app.route("/")
 def home():
 
-    return render_template("index.html")
+    total = get_total_employees()
 
+    return render_template(
+        "index.html",
+        total=total
+    )
 
 @app.route("/employees")
 def employees():
@@ -90,6 +96,13 @@ def edit(id):
         "edit_employee.html",
         employee=employee
     )
+
+@app.route("/delete/<int:id>")
+def delete(id):
+
+    delete_employee(id)
+
+    return redirect(url_for("employees"))
 
 
 @app.route("/leave")

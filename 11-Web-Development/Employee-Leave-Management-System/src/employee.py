@@ -96,6 +96,21 @@ def get_employee_by_id(id):
 
     return employee
 
+def get_total_employees():
+
+    connection = get_connection()
+
+    cursor = connection.cursor()
+
+    cursor.execute(
+        "SELECT COUNT(*) FROM employees"
+    )
+
+    total = cursor.fetchone()[0]
+
+    connection.close()
+
+    return total
 
 def update_employee(id, employee_id, name, department):
 
@@ -117,6 +132,21 @@ def update_employee(id, employee_id, name, department):
             department,
             id
         )
+    )
+
+    connection.commit()
+
+    connection.close()
+
+def delete_employee(id):
+
+    connection = get_connection()
+
+    cursor = connection.cursor()
+
+    cursor.execute(
+        "DELETE FROM employees WHERE id=?",
+        (id,)
     )
 
     connection.commit()
