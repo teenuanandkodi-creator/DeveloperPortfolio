@@ -7,6 +7,40 @@
 Employees
 
 </h2>
+<form
+method="GET"
+action="/employees"
+class="row g-3 mb-4">
+
+<div class="col-md-10">
+
+<input
+type="text"
+class="form-control"
+name="search"
+placeholder="Search by Employee ID, Name or Department"
+value="{{ keyword }}">
+
+</div>
+
+<div class="col-md-2">
+
+<button
+class="btn btn-primary w-100">
+
+Search
+
+</button>
+<a
+href="/employees"
+class="btn btn-secondary w-100 mt-2">
+
+Clear
+
+</a>
+</div>
+
+</form>
 <a
 href="/add_employee"
 class="btn btn-primary mb-3">
@@ -21,12 +55,10 @@ class="btn btn-primary mb-3">
 
         <tr>
 
+            <th>#</th>
             <th>Employee ID</th>
-
             <th>Name</th>
-
             <th>Department</th>
-
             <th>Action</th>
 
         </tr>
@@ -39,11 +71,13 @@ class="btn btn-primary mb-3">
 
         <tr>
 
+            <td>{{ loop.index }}</td>
+
             <td>{{ employee["employee_id"] }}</td>
 
             <td>{{ employee["name"] }}</td>
 
-            <td>{{ employee["department"] }}</td>
+            <td> <span class="badge bg-primary"> {{ employee["department"] }} </span> </td>
 
             <td>
                 <a href="/edit/{{ employee['id'] }}" class="btn btn-warning btn-sm"> Edit</a>
@@ -51,7 +85,13 @@ class="btn btn-primary mb-3">
             </td>
 
         </tr>
+        {% if employees|length == 0 %}
 
+        <tr>
+            <td colspan="5" class="text-center text-danger"> No employees found. </td>
+        </tr>
+        {% endif %}
+        
         {% endfor %}
 
     </tbody>

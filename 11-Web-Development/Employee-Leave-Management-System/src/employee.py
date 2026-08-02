@@ -152,3 +152,30 @@ def delete_employee(id):
     connection.commit()
 
     connection.close()
+
+def search_employees(keyword):
+
+    connection = get_connection()
+
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        SELECT *
+        FROM employees
+        WHERE employee_id LIKE ?
+        OR name LIKE ?
+        OR department LIKE ?
+        """,
+        (
+            f"%{keyword}%",
+            f"%{keyword}%",
+            f"%{keyword}%"
+        )
+    )
+
+    employees = cursor.fetchall()
+
+    connection.close()
+
+    return employees

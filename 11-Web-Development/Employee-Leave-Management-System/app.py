@@ -15,8 +15,9 @@ from src.employee import (
     get_employee_by_id,
     update_employee,
     delete_employee,
-    get_total_employees
-
+    get_total_employees,
+    search_employees
+    
 )
 
 app = Flask(__name__)
@@ -39,15 +40,22 @@ def home():
 @app.route("/employees")
 def employees():
 
-    employee_list = get_all_employees()
+    keyword = request.args.get("search", "")
+
+    if keyword:
+
+        employee_list = search_employees(keyword)
+
+    else:
+
+        employee_list = get_all_employees()
 
     return render_template(
-
         "employees.html",
-
-        employees=employee_list
-
+        employees=employee_list,
+        keyword=keyword
     )
+
 
 @app.route("/add_employee", methods=["GET", "POST"])
 def add_employee_page():
