@@ -7,6 +7,11 @@ from flask import (
 )
 from src.database import initialize_database
 
+from src.leave import (
+    add_leave_request,
+    get_all_leave_requests
+)
+
 from src.employee import (
 
     get_all_employees,
@@ -112,12 +117,37 @@ def delete(id):
 
     return redirect(url_for("employees"))
 
-
-@app.route("/leave")
+@app.route("/leave", methods=["GET", "POST"])
 def leave():
 
-    return render_template("leave.html")
+    if request.method == "POST":
 
+        employee_id = request.form["employee_id"]
+
+        leave_type = request.form["leave_type"]
+
+        start_date = request.form["start_date"]
+
+        end_date = request.form["end_date"]
+
+        reason = request.form["reason"]
+
+        add_leave_request(
+            employee_id,
+            leave_type,
+            start_date,
+            end_date,
+            reason
+        )
+
+        return redirect(url_for("leave"))
+
+    leave_requests = get_all_leave_requests()
+
+    return render_template(
+        "leave.html",
+        leave_requests=leave_requests
+    )
 
 @app.route("/about")
 def about():

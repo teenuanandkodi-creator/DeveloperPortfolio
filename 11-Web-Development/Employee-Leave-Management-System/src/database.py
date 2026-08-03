@@ -30,6 +30,25 @@ def initialize_database():
     )
     """)
 
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS leave_requests(
+
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+        employee_id TEXT,
+
+        leave_type TEXT,
+
+        start_date TEXT,
+
+        end_date TEXT,
+
+        reason TEXT,
+
+        status TEXT
+    )
+    """)
+
     connection.commit()
 
     connection.close()

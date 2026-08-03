@@ -2,22 +2,195 @@
 
 {% block content %}
 
-<h2>
+<h2 class="mb-4">
 
-Leave Requests
+Leave Management
 
 </h2>
 
-<div class="alert alert-info">
+<form method="POST">
 
-Employees can submit leave requests here.
+<div class="row">
+
+<div class="col-md-6 mb-3">
+
+<label class="form-label">
+
+Employee ID
+
+</label>
+
+<input
+type="text"
+name="employee_id"
+class="form-control"
+required>
 
 </div>
 
-<button class="btn btn-success">
+<div class="col-md-6 mb-3">
 
-Apply Leave
+<label class="form-label">
+
+Leave Type
+
+</label>
+
+<select
+name="leave_type"
+class="form-select"
+required>
+
+<option value="Annual Leave">
+
+Annual Leave
+
+</option>
+
+<option value="Sick Leave">
+
+Sick Leave
+
+</option>
+
+<option value="Casual Leave">
+
+Casual Leave
+
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="col-md-6 mb-3">
+
+<label class="form-label">
+
+Start Date
+
+</label>
+
+<input
+type="date"
+name="start_date"
+class="form-control"
+required>
+
+</div>
+
+<div class="col-md-6 mb-3">
+
+<label class="form-label">
+
+End Date
+
+</label>
+
+<input
+type="date"
+name="end_date"
+class="form-control"
+required>
+
+</div>
+
+</div>
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Reason
+
+</label>
+
+<textarea
+name="reason"
+class="form-control"
+rows="3"
+required>
+
+</textarea>
+
+</div>
+
+<button
+type="submit"
+class="btn btn-success">
+
+Submit Leave Request
 
 </button>
+
+</form>
+
+<hr class="my-5">
+
+<h3>
+
+Leave Requests
+
+</h3>
+
+<table class="table table-bordered table-hover">
+
+<thead class="table-primary">
+
+<tr>
+
+<th>#</th>
+
+<th>Employee ID</th>
+
+<th>Type</th>
+
+<th>Start</th>
+
+<th>End</th>
+
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for leave in leave_requests %}
+
+<tr>
+
+<td>{{ loop.index }}</td>
+
+<td>{{ leave["employee_id"] }}</td>
+
+<td>{{ leave["leave_type"] }}</td>
+
+<td>{{ leave["start_date"] }}</td>
+
+<td>{{ leave["end_date"] }}</td>
+
+<td>
+
+<span class="badge bg-warning text-dark">
+
+{{ leave["status"] }}
+
+</span>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
 
 {% endblock %}
