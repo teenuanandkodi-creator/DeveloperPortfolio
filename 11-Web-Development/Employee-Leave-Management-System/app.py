@@ -9,7 +9,9 @@ from src.database import initialize_database
 
 from src.leave import (
     add_leave_request,
-    get_all_leave_requests
+    get_all_leave_requests,
+    get_leave_statistics,
+    update_leave_status
 )
 
 from src.employee import (
@@ -31,15 +33,17 @@ initialize_database()
 
 insert_sample_data()
 
-
 @app.route("/")
 def home():
 
-    total = get_total_employees()
+    total_employees = get_total_employees()
+
+    leave_stats = get_leave_statistics()
 
     return render_template(
         "index.html",
-        total=total
+        total=total_employees,
+        leave_stats=leave_stats
     )
 
 @app.route("/employees")
@@ -148,6 +152,26 @@ def leave():
         "leave.html",
         leave_requests=leave_requests
     )
+
+@app.route("/approve_leave/<int:id>")
+def approve_leave(id):
+
+    update_leave_status(
+        id,
+        "Approved"
+    )
+
+    return redirect(url_for("leave"))
+
+@app.route("/reject_leave/<int:id>")
+def reject_leave(id):
+
+    update_leave_status(
+        id,
+        "Rejected"
+    )
+
+    return redirect(url_for("leave"))
 
 @app.route("/about")
 def about():

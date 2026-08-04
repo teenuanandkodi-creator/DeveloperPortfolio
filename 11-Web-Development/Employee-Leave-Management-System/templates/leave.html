@@ -155,6 +155,8 @@ Leave Requests
 
 <th>Status</th>
 
+<th>Action</th>
+
 </tr>
 
 </thead>
@@ -182,6 +184,68 @@ Leave Requests
 {{ leave["status"] }}
 
 </span>
+
+</td>
+
+<td>
+
+{% if leave["status"] == "Pending" %}
+
+<span class="badge bg-warning text-dark">
+
+Pending
+
+</span>
+
+{% elif leave["status"] == "Approved" %}
+
+<span class="badge bg-success">
+
+Approved
+
+</span>
+
+{% else %}
+
+<span class="badge bg-danger">
+
+Rejected
+
+</span>
+
+{% endif %}
+
+</td>
+
+<td>
+
+{% if leave["status"] == "Pending" %}
+
+<a
+href="/approve_leave/{{ leave['id'] }}"
+class="btn btn-success btn-sm">
+
+Approve
+
+</a>
+
+<a
+href="/reject_leave/{{ leave['id'] }}"
+class="btn btn-danger btn-sm">
+
+Reject
+
+</a>
+
+{% else %}
+
+<span class="text-muted">
+
+Completed
+
+</span>
+
+{% endif %}
 
 </td>
 

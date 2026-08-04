@@ -52,7 +52,7 @@ A Flask Web Application
 
 <h2 class="text-success">
 
-8
+{{ leave_stats.total }}
 
 </h2>
 
@@ -72,7 +72,7 @@ A Flask Web Application
 
 <h2 class="text-info">
 
-6
+{{ leave_stats.approved }}
 
 </h2>
 
@@ -92,7 +92,27 @@ A Flask Web Application
 
 <h2 class="text-danger">
 
-2
+{{ leave_stats.pending }}
+
+</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card text-center shadow">
+
+<div class="card-body">
+
+<h5>Rejected</h5>
+
+<h2 class="text-danger">
+
+{{ leave_stats.rejected }}
 
 </h2>
 
