@@ -11,7 +11,8 @@ from src.leave import (
     add_leave_request,
     get_all_leave_requests,
     get_leave_statistics,
-    update_leave_status
+    update_leave_status,
+    search_leave_requests
 )
 
 from src.employee import (
@@ -146,11 +147,43 @@ def leave():
 
         return redirect(url_for("leave"))
 
-    leave_requests = get_all_leave_requests()
+    search_employee_id = request.args.get(
+        "employee_id",
+        ""
+    )
+
+    search_status = request.args.get(
+        "status",
+        ""
+    )
+
+    search_leave_type = request.args.get(
+        "leave_type",
+        ""
+    )
+
+    if (
+        search_employee_id
+        or search_status
+        or search_leave_type
+    ):
+
+        leave_requests = search_leave_requests(
+            search_employee_id,
+            search_status,
+            search_leave_type
+        )
+
+    else:
+
+        leave_requests = get_all_leave_requests()
 
     return render_template(
         "leave.html",
-        leave_requests=leave_requests
+        leave_requests=leave_requests,
+        search_employee_id=search_employee_id,
+        search_status=search_status,
+        search_leave_type=search_leave_type
     )
 
 @app.route("/approve_leave/<int:id>")

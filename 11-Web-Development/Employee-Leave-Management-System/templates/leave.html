@@ -131,6 +131,149 @@ Submit Leave Request
 
 <hr class="my-5">
 
+<h3 class="mb-4">
+Search Leave Requests
+</h3>
+
+<form
+    method="GET"
+    action="/leave"
+    class="row g-3 mb-4">
+
+    <div class="col-md-4">
+
+        <label class="form-label">
+            Employee ID
+        </label>
+
+        <input
+            type="text"
+            name="employee_id"
+            class="form-control"
+            placeholder="Example: EMP001"
+            value="{{ search_employee_id }}"
+        >
+
+    </div>
+
+    <div class="col-md-4">
+
+        <label class="form-label">
+            Status
+        </label>
+
+        <select
+            name="status"
+            class="form-select">
+
+            <option value="">
+                All Statuses
+            </option>
+
+            <option
+                value="Pending"
+                {% if search_status == "Pending" %}
+                selected
+                {% endif %}
+            >
+                Pending
+            </option>
+
+            <option
+                value="Approved"
+                {% if search_status == "Approved" %}
+                selected
+                {% endif %}
+            >
+                Approved
+            </option>
+
+            <option
+                value="Rejected"
+                {% if search_status == "Rejected" %}
+                selected
+                {% endif %}
+            >
+                Rejected
+            </option>
+
+        </select>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <label class="form-label">
+            Leave Type
+        </label>
+
+        <select
+            name="leave_type"
+            class="form-select">
+
+            <option value="">
+                All Leave Types
+            </option>
+
+            <option
+                value="Annual Leave"
+                {% if search_leave_type == "Annual Leave" %}
+                selected
+                {% endif %}
+            >
+                Annual Leave
+            </option>
+
+            <option
+                value="Sick Leave"
+                {% if search_leave_type == "Sick Leave" %}
+                selected
+                {% endif %}
+            >
+                Sick Leave
+            </option>
+
+            <option
+                value="Casual Leave"
+                {% if search_leave_type == "Casual Leave" %}
+                selected
+                {% endif %}
+            >
+                Casual Leave
+            </option>
+
+        </select>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <button
+            type="submit"
+            class="btn btn-primary w-100">
+
+            Search
+
+        </button>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <a
+            href="/leave"
+            class="btn btn-secondary w-100">
+
+            Clear
+
+        </a>
+
+    </div>
+
+</form>
+
+<hr class="my-5">
+
 <h3>
 
 Leave Requests
@@ -152,6 +295,8 @@ Leave Requests
 <th>Start</th>
 
 <th>End</th>
+
+<th>Reason</th>
 
 <th>Status</th>
 
@@ -176,6 +321,8 @@ Leave Requests
 <td>{{ leave["start_date"] }}</td>
 
 <td>{{ leave["end_date"] }}</td>
+
+<td>{{ leave["reason"]}}</td>
 
 <td>
 
@@ -252,6 +399,22 @@ Completed
 </tr>
 
 {% endfor %}
+
+{% if leave_requests|length == 0 %}
+
+<tr>
+
+<td
+colspan="8"
+class="text-center text-danger">
+
+No leave requests found.
+
+</td>
+
+</tr>
+
+{% endif %}
 
 </tbody>
 

@@ -130,3 +130,58 @@ def get_leave_statistics():
         "approved": approved,
         "rejected": rejected
     }
+
+def search_leave_requests(employee_id="", status="", leave_type=""):
+
+    connection = get_connection()
+
+    cursor = connection.cursor()
+
+    query = """
+        SELECT *
+        FROM leave_requests
+        WHERE 1=1
+    """
+
+    parameters = []
+
+    if employee_id:
+
+        query += """
+            AND employee_id LIKE ?
+        """
+
+        parameters.append(
+            f"%{employee_id}%"
+        )
+
+    if status:
+
+        query += """
+            AND status = ?
+        """
+
+        parameters.append(status)
+
+    if leave_type:
+
+        query += """
+            AND leave_type = ?
+        """
+
+        parameters.append(leave_type)
+
+    query += """
+        ORDER BY id DESC
+    """
+
+    cursor.execute(
+        query,
+        parameters
+    )
+
+    leaves = cursor.fetchall()
+
+    connection.close()
+
+    return leaves
