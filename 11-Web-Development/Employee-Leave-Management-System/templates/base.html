@@ -61,6 +61,28 @@
 
             </ul>
 
+            {% if session.get("user_id") %}
+                <li class="nav-item">
+                    <span class="nav-link"> Welcome, {{ session.get("username") }}</span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-danger" href="/logout"> Logout </a>
+                </li>
+            {% else %}
+
+<li class="nav-item">
+
+    <a
+        class="nav-link"
+        href="/login">
+
+        Login
+
+    </a>
+
+</li>
+
+{% endif %}
         </div>
 
     </div>

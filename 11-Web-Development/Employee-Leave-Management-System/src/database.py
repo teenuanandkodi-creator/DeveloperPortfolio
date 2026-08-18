@@ -49,6 +49,63 @@ def initialize_database():
     )
     """)
 
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS users(
+
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+        username TEXT UNIQUE,
+
+        password TEXT,
+
+        role TEXT
+    )
+    """)
+
+def initialize_users():
+
+    connection = get_connection()
+
+    cursor = connection.cursor()
+
+    cursor.execute(
+        "SELECT COUNT(*) FROM users"
+    )
+
+    total = cursor.fetchone()[0]
+
+    if total == 0:
+
+        users = [
+
+            (
+                "admin",
+                "admin123",
+                "Admin"
+            ),
+
+            (
+                "employee",
+                "employee123",
+                "Employee"
+            )
+
+        ]
+
+        cursor.executemany(
+            """
+            INSERT INTO users
+            (
+                username,
+                password,
+                role
+            )
+
+            VALUES(?,?,?)
+            """,
+            users
+        )
+
     connection.commit()
 
     connection.close()

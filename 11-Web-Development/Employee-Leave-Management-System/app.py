@@ -3,9 +3,13 @@ from flask import (
     render_template,
     request,
     redirect,
-    url_for
+    url_for,
+    session
 )
-from src.database import initialize_database
+from src.database import (
+     initialize_database,
+     initialize_users
+)
 
 from src.leave import (
     add_leave_request,
@@ -28,15 +32,70 @@ from src.employee import (
     
 )
 
+from src.auth import authenticate_user
+
 app = Flask(__name__)
+
+app.secret_key = "employee-leave-management-secret-key"
 
 initialize_database()
 
+initialize_users()
+
 insert_sample_data()
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+
+    if request.method == "POST":
+
+        username = request.form["username"]
+
+        password = request.form["password"]
+
+        user = authenticate_user(
+            username,
+            password
+        )
+
+        if user:
+
+            session["user_id"] = user["id"]
+
+            session["username"] = user["username"]
+
+            session["role"] = user["role"]
+
+            return redirect(
+                url_for("home")
+            )
+
+        return render_template(
+            "login.html",
+            error="Invalid username or password"
+        )
+
+    return render_template(
+        "login.html"
+    )
+@app.route("/logout")
+def logout():
+
+    session.clear()
+
+    return redirect(
+        url_for("login")
+    )
 
 @app.route("/")
 def home():
 
+    if "user_id" not in session:
+
+        return redirect(
+            url_for("login")
+        )
+    
     total_employees = get_total_employees()
 
     leave_stats = get_leave_statistics()
@@ -50,6 +109,12 @@ def home():
 @app.route("/employees")
 def employees():
 
+    if "user_id" not in session:
+
+        return redirect(
+            url_for("login")
+        )
+    
     keyword = request.args.get("search", "")
 
     if keyword:
@@ -125,6 +190,12 @@ def delete(id):
 @app.route("/leave", methods=["GET", "POST"])
 def leave():
 
+    if "user_id" not in session:
+
+        return redirect(
+            url_for("login")
+        )
+    
     if request.method == "POST":
 
         employee_id = request.form["employee_id"]
@@ -189,6 +260,16 @@ def leave():
 @app.route("/approve_leave/<int:id>")
 def approve_leave(id):
 
+    if "user_id" not in session:
+
+        return redirect(
+            url_for("login")
+        )
+
+    update_leave_status(
+        id,
+        "Approved"
+    )
     update_leave_status(
         id,
         "Approved"
@@ -198,7 +279,16 @@ def approve_leave(id):
 
 @app.route("/reject_leave/<int:id>")
 def reject_leave(id):
+    if "user_id" not in session:
 
+        return redirect(
+            url_for("login")
+        )
+
+    update_leave_status(
+        id,
+        "Rejected"
+    )
     update_leave_status(
         id,
         "Rejected"
@@ -209,8 +299,15 @@ def reject_leave(id):
 @app.route("/about")
 def about():
 
-    return render_template("about.html")
+    if "user_id" not in session:
 
+        return redirect(
+            url_for("login")
+        )
+
+    return render_template(
+        "about.html"
+    )
 
 
 if __name__ == "__main__":
