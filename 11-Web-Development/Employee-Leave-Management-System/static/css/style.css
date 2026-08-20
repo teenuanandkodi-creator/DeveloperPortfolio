@@ -1,25 +1,447 @@
-body{
+/* ================================
+   GLOBAL STYLES
+================================ */
 
-background:#f8f9fa;
+body {
+
+    margin: 0;
+
+    padding: 0;
+
+    background-color: #f8f9fa;
+
+    color: #212529;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
 
 }
 
-.card{
 
-border:none;
+/* ================================
+   NAVBAR
+================================ */
 
-border-radius:15px;
+.navbar {
 
-}
-
-footer{
-
-margin-top:80px;
+    min-height: 70px;
 
 }
 
-.navbar-brand{
 
-font-weight:bold;
+.navbar-brand {
+
+    font-size: 26px;
+
+    letter-spacing: 0.5px;
+
+}
+
+
+.navbar-nav {
+
+    gap: 8px;
+
+}
+
+
+.nav-link {
+
+    color: #ffffff !important;
+
+    font-size: 16px;
+
+    font-weight: 500;
+
+    padding: 10px 14px !important;
+
+    border-radius: 6px;
+
+    transition: all 0.2s ease;
+
+}
+
+
+.nav-link:hover {
+
+    background-color: rgba(255, 255, 255, 0.12);
+
+    color: #ffffff !important;
+
+}
+
+
+/* Login */
+
+.login-link {
+
+    color: #0d6efd !important;
+
+    font-weight: 600;
+
+}
+
+
+.login-link:hover {
+
+    background-color: #0d6efd;
+
+    color: #ffffff !important;
+
+}
+
+
+/* Logout */
+
+.logout-link {
+
+    color: #ff4d5a !important;
+
+    font-weight: 600;
+
+}
+
+
+.logout-link:hover {
+
+    background-color: #dc3545;
+
+    color: #ffffff !important;
+
+}
+
+
+/* ================================
+   MAIN CONTENT
+================================ */
+
+.main-content {
+
+    min-height: calc(100vh - 140px);
+
+    padding-top: 50px;
+
+    padding-bottom: 60px;
+
+}
+
+
+/* ================================
+   HEADINGS
+================================ */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+
+    color: #212529;
+
+    font-weight: 600;
+
+}
+
+
+/* ================================
+   CARDS
+================================ */
+
+.card {
+
+    border: none;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.08);
+
+}
+
+
+.card-body {
+
+    padding: 30px;
+
+}
+
+
+/* ================================
+   DASHBOARD
+================================ */
+
+.dashboard-title {
+
+    text-align: center;
+
+    margin-bottom: 10px;
+
+}
+
+
+.dashboard-subtitle {
+
+    text-align: center;
+
+    color: #6c757d;
+
+    margin-bottom: 35px;
+
+}
+
+
+.stat-card {
+
+    height: 150px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+}
+
+
+.stat-card h5 {
+
+    margin-bottom: 15px;
+
+    color: #343a40;
+
+}
+
+
+.stat-card h2 {
+
+    font-size: 38px;
+
+    margin: 0;
+
+}
+
+
+/* ================================
+   LOGIN PAGE
+================================ */
+
+.login-container {
+
+    min-height: 70vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+}
+
+
+.login-card {
+
+    width: 100%;
+
+    max-width: 520px;
+
+    background-color: #ffffff;
+
+    border-radius: 18px;
+
+    padding: 40px;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.10);
+
+}
+
+
+.login-title {
+
+    text-align: center;
+
+    color: #212529;
+
+    font-size: 36px;
+
+    font-weight: 600;
+
+    margin-bottom: 10px;
+
+}
+
+
+.login-subtitle {
+
+    text-align: center;
+
+    color: #6c757d;
+
+    margin-bottom: 30px;
+
+}
+
+
+.login-card label {
+
+    color: #212529;
+
+    font-weight: 600;
+
+    margin-bottom: 8px;
+
+}
+
+
+.login-card input {
+
+    width: 100%;
+
+    padding: 12px 14px;
+
+    border: 1px solid #ced4da;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+
+    color: #212529;
+
+    background-color: #ffffff;
+
+}
+
+
+.login-card input:focus {
+
+    outline: none;
+
+    border-color: #0d6efd;
+
+    box-shadow:
+        0 0 0 3px rgba(13, 110, 253, 0.15);
+
+}
+
+
+.login-button {
+
+    width: 100%;
+
+    padding: 12px;
+
+    margin-top: 10px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background-color: #0d6efd;
+
+    color: #ffffff;
+
+    font-size: 17px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+}
+
+
+.login-button:hover {
+
+    background-color: #0b5ed7;
+
+}
+
+
+/* ================================
+   DEMO CREDENTIALS
+================================ */
+
+.demo-credentials {
+
+    margin-top: 25px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #dee2e6;
+
+    text-align: center;
+
+    color: #495057;
+
+}
+
+
+.demo-credentials strong {
+
+    color: #0d6efd;
+
+}
+
+
+/* ================================
+   FOOTER
+================================ */
+
+footer {
+
+    border-top: 1px solid #dee2e6;
+
+    background-color: #f8f9fa;
+
+    padding: 25px 0;
+
+    color: #495057;
+
+}
+
+
+footer p {
+
+    margin: 0;
+
+    font-size: 15px;
+
+}
+
+
+/* ================================
+   MOBILE RESPONSIVE
+================================ */
+
+@media (max-width: 991px) {
+
+    .navbar-nav {
+
+        padding-top: 15px;
+
+        padding-bottom: 15px;
+
+    }
+
+    .nav-link {
+
+        padding: 10px !important;
+
+    }
+
+    .login-card {
+
+        margin: 20px;
+
+        padding: 30px;
+
+    }
 
 }

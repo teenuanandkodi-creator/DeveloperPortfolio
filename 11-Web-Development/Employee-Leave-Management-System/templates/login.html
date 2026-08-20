@@ -1,90 +1,111 @@
 {% extends "base.html" %}
 
+{% block title %}
+
+Login - ELMS
+
+{% endblock %}
+
+
 {% block content %}
 
-<div class="row justify-content-center">
+<div class="login-container">
 
-    <div class="col-md-5">
+    <div class="login-card">
 
-        <div class="card shadow">
+        <h1 class="login-title">
 
-            <div class="card-body p-4">
+            Welcome Back
 
-                <h2 class="text-center mb-4">
-                    Login
-                </h2>
+        </h1>
 
-                {% if error %}
+        <p class="login-subtitle">
 
-                <div class="alert alert-danger">
+            Please login to your account
 
-                    {{ error }}
+        </p>
 
-                </div>
 
-                {% endif %}
+        <form method="POST" action="/login">
 
-                <form method="POST">
+            <div class="mb-3">
 
-                    <div class="mb-3">
+                <label for="username">
 
-                        <label class="form-label">
+                    Username
 
-                            Username
+                </label>
 
-                        </label>
-
-                        <input
-                            type="text"
-                            name="username"
-                            class="form-control"
-                            required
-                        >
-
-                    </div>
-
-                    <div class="mb-3">
-
-                        <label class="form-label">
-
-                            Password
-
-                        </label>
-
-                        <input
-                            type="password"
-                            name="password"
-                            class="form-control"
-                            required
-                        >
-
-                    </div>
-
-                    <button
-                        type="submit"
-                        class="btn btn-primary w-100">
-
-                        Login
-
-                    </button>
-
-                </form>
-
-                <hr>
-
-                <div class="text-muted small">
-
-                    <p class="mb-1">
-                        Admin: admin / admin123
-                    </p>
-
-                    <p class="mb-0">
-                        Employee: employee / employee123
-                    </p>
-
-                </div>
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Enter username"
+                    required
+                >
 
             </div>
+
+
+            <div class="mb-3">
+
+                <label for="password">
+
+                    Password
+
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter password"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="login-button"
+            >
+
+                Login
+
+            </button>
+
+        </form>
+
+
+        {% if error %}
+
+        <div class="alert alert-danger mt-3">
+
+            {{ error }}
+
+        </div>
+
+        {% endif %}
+
+
+        <div class="demo-credentials">
+
+            <strong>Demo Credentials</strong>
+
+            <p class="mb-1">
+
+                <strong>Admin:</strong>
+                admin / admin123
+
+            </p>
+
+            <p class="mb-0">
+
+                <strong>Employee:</strong>
+                employee / employee123
+
+            </p>
 
         </div>
 

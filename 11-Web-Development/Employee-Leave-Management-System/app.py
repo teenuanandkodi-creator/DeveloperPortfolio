@@ -38,6 +38,20 @@ app = Flask(__name__)
 
 app.secret_key = "employee-leave-management-secret-key"
 
+def is_logged_in():
+
+    return "user_id" in session
+
+
+def is_admin():
+
+    return session.get("role") == "admin"
+
+
+def is_employee():
+
+    return session.get("role") == "employee"
+
 initialize_database()
 
 initialize_users()
@@ -132,9 +146,19 @@ def employees():
     )
 
 
-@app.route("/add_employee", methods=["GET", "POST"])
+@app.route("/add-employee", methods=["GET", "POST"])
 def add_employee_page():
 
+    if not is_logged_in():
+
+        return redirect(
+            url_for("login")
+        )
+
+    if not is_admin():
+
+        return "Access Denied: Admins only", 403
+    
     if request.method == "POST":
 
         employee_id = request.form["employee_id"]
@@ -156,6 +180,16 @@ def add_employee_page():
 @app.route("/edit/<int:id>", methods=["GET", "POST"])
 def edit(id):
 
+    if not is_logged_in():
+
+        return redirect(
+            url_for("login")
+        )
+
+    if not is_admin():
+
+        return "Access Denied: Admins only", 403
+    
     employee = get_employee_by_id(id)
 
     if request.method == "POST":
@@ -183,6 +217,16 @@ def edit(id):
 @app.route("/delete/<int:id>")
 def delete(id):
 
+    if not is_logged_in():
+
+        return redirect(
+            url_for("login")
+        )
+
+    if not is_admin():
+
+        return "Access Denied: Admins only", 403
+    
     delete_employee(id)
 
     return redirect(url_for("employees"))
@@ -260,16 +304,16 @@ def leave():
 @app.route("/approve_leave/<int:id>")
 def approve_leave(id):
 
-    if "user_id" not in session:
+    if not is_logged_in():
 
         return redirect(
             url_for("login")
         )
 
-    update_leave_status(
-        id,
-        "Approved"
-    )
+    if not is_admin():
+
+        return "Access Denied: Admins only", 403
+    
     update_leave_status(
         id,
         "Approved"
@@ -279,16 +323,17 @@ def approve_leave(id):
 
 @app.route("/reject_leave/<int:id>")
 def reject_leave(id):
-    if "user_id" not in session:
+    
+    if not is_logged_in():
 
         return redirect(
             url_for("login")
         )
 
-    update_leave_status(
-        id,
-        "Rejected"
-    )
+    if not is_admin():
+
+        return "Access Denied: Admins only", 403
+
     update_leave_status(
         id,
         "Rejected"
