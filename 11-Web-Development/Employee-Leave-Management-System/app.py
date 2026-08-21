@@ -45,12 +45,12 @@ def is_logged_in():
 
 def is_admin():
 
-    return session.get("role") == "admin"
+    return str(session.get("role","")).lower() == "admin"
 
 
 def is_employee():
 
-    return session.get("role") == "employee"
+    return str(session.get("role","")).lower() == "employee"
 
 initialize_database()
 
@@ -78,7 +78,7 @@ def login():
 
             session["username"] = user["username"]
 
-            session["role"] = user["role"]
+            session["role"] = str(user["role"]).lower()
 
             return redirect(
                 url_for("home")
