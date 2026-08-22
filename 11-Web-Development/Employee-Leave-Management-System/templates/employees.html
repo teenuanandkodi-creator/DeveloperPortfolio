@@ -62,8 +62,9 @@ Clear
             <th>Employee ID</th>
             <th>Name</th>
             <th>Department</th>
-            <th>Action</th>
-
+            {% if session.get("role", "")|lower == "admin" %}
+                <th>Action</th>
+            {% endif %}
         </tr>
 
     </thead>
