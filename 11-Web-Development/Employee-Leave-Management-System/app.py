@@ -4,7 +4,8 @@ from flask import (
     request,
     redirect,
     url_for,
-    session
+    session,
+    flash
 )
 from src.database import (
      initialize_database,
@@ -28,7 +29,8 @@ from src.employee import (
     update_employee,
     delete_employee,
     get_total_employees,
-    search_employees
+    search_employees,
+    get_employee_by_employee_id
     
 )
 
@@ -234,23 +236,64 @@ def delete(id):
 @app.route("/leave", methods=["GET", "POST"])
 def leave():
 
-    if "user_id" not in session:
+    if not is_logged_in():
 
         return redirect(
             url_for("login")
         )
-    
+
     if request.method == "POST":
 
-        employee_id = request.form["employee_id"]
+        employee_id = request.form["employee_id"].strip()
 
-        leave_type = request.form["leave_type"]
+        leave_type = request.form["leave_type"].strip()
 
         start_date = request.form["start_date"]
 
         end_date = request.form["end_date"]
 
-        reason = request.form["reason"]
+        reason = request.form["reason"].strip()
+
+        # Validate required fields
+
+        if not employee_id or not leave_type or not start_date or not end_date or not reason:
+
+            flash(
+                "All fields are required.",
+                "danger"
+            )
+
+            return redirect(
+                url_for("leave")
+            )
+
+        # Check whether employee exists
+
+        employee = get_employee_by_employee_id(employee_id)
+
+        if not employee:
+
+            flash(
+                    f"Employee ID {employee_id} does not exist.","danger")
+
+            return redirect(
+                    url_for("leave")
+                )
+
+        # Validate date range
+
+        if end_date < start_date:
+
+            flash(
+                "End date cannot be before start date.",
+                "danger"
+            )
+
+            return redirect(
+                url_for("leave")
+            )
+
+        # Add leave request
 
         add_leave_request(
             employee_id,
@@ -260,7 +303,14 @@ def leave():
             reason
         )
 
-        return redirect(url_for("leave"))
+        flash(
+            "Leave request submitted successfully.",
+            "success"
+        )
+
+        return redirect(
+            url_for("leave")
+        )
 
     search_employee_id = request.args.get(
         "employee_id",
@@ -319,6 +369,11 @@ def approve_leave(id):
         "Approved"
     )
 
+    flash(
+        "Leave request approved successfully.",
+        "success"
+    )
+
     return redirect(url_for("leave"))
 
 @app.route("/reject_leave/<int:id>")
@@ -337,6 +392,11 @@ def reject_leave(id):
     update_leave_status(
         id,
         "Rejected"
+    )
+
+    flash(
+        "Leave request rejected.",
+        "danger"
     )
 
     return redirect(url_for("leave"))

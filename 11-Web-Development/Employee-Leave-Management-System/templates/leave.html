@@ -326,11 +326,25 @@ Leave Requests
 
 <td>
 
-<span class="badge bg-warning text-dark">
+    {% if leave["status"] == "Approved" %}
 
-{{ leave["status"] }}
+        <span class="badge bg-success">
+            Approved
+        </span>
 
-</span>
+    {% elif leave["status"] == "Rejected" %}
+
+        <span class="badge bg-danger">
+            Rejected
+        </span>
+
+    {% else %}
+
+        <span class="badge bg-warning text-dark">
+            Pending
+        </span>
+
+    {% endif %}
 
 </td>
 
@@ -366,36 +380,42 @@ Rejected
 
 <td>
 
-{% if leave["status"] == "Pending" %}
+    {% if session.get("role") == "admin" %}
 
-<a
-href="/approve_leave/{{ leave['id'] }}"
-class="btn btn-success btn-sm">
+        {% if leave["status"] == "Pending" %}
 
-Approve
+            <a
+                href="{{ url_for('approve_leave', id=leave['id']) }}"
+                class="btn btn-success btn-sm"
+            >
+                Approve
+            </a>
 
-</a>
+            <a
+                href="{{ url_for('reject_leave', id=leave['id']) }}"
+                class="btn btn-danger btn-sm"
+                onclick="return confirm('Are you sure you want to reject this leave request?');"
+            >
+                Reject
+            </a>
 
-<a
-href="/reject_leave/{{ leave['id'] }}"
-class="btn btn-danger btn-sm">
+        {% else %}
 
-Reject
+            <span class="text-muted">
+                Completed
+            </span>
 
-</a>
+        {% endif %}
 
-{% else %}
+    {% else %}
 
-<span class="text-muted">
+        <span class="text-muted">
+            View Only
+        </span>
 
-Completed
+    {% endif %}
 
-</span>
-
-{% endif %}
-
-</td>
-
+</td> 
 </tr>
 
 {% endfor %}

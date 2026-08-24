@@ -179,3 +179,24 @@ def search_employees(keyword):
     connection.close()
 
     return employees
+
+def get_employee_by_employee_id(employee_id):
+
+    connection = get_connection()
+
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        SELECT *
+        FROM employees
+        WHERE employee_id=?
+        """,
+        (employee_id,)
+    )
+
+    employee = cursor.fetchone()
+
+    connection.close()
+
+    return employee
