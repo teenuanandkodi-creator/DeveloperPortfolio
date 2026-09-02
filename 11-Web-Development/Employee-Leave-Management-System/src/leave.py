@@ -185,3 +185,31 @@ def search_leave_requests(employee_id="", status="", leave_type=""):
     connection.close()
 
     return leaves
+
+def has_overlapping_leave(employee_id, start_date, end_date):
+
+    connection = get_connection()
+
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        SELECT *
+        FROM leave_requests
+        WHERE employee_id=?
+        AND status IN ('Pending', 'Approved')
+        AND start_date <= ?
+        AND end_date >= ?
+        """,
+        (
+            employee_id,
+            end_date,
+            start_date
+        )
+    )
+
+    existing_leave = cursor.fetchone()
+
+    connection.close()
+
+    return existing_leave is not None

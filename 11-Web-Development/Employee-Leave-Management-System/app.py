@@ -17,7 +17,8 @@ from src.leave import (
     get_all_leave_requests,
     get_leave_statistics,
     update_leave_status,
-    search_leave_requests
+    search_leave_requests,
+    has_overlapping_leave
 )
 
 from src.employee import (
@@ -293,6 +294,21 @@ def leave():
                 url_for("leave")
             )
 
+        # Check for overlapping leave
+
+        if has_overlapping_leave(
+            employee_id,
+            start_date,
+            end_date
+            ):
+
+            flash(
+                "This employee already has a pending or approved leave during these dates.","danger"
+            )
+
+            return redirect(
+                url_for("leave")
+            )
         # Add leave request
 
         add_leave_request(
