@@ -34,7 +34,7 @@ from src.employee import (
     get_employee_by_employee_id
     
 )
-
+from datetime import date
 from src.auth import authenticate_user
 
 app = Flask(__name__)
@@ -294,6 +294,18 @@ def leave():
                 url_for("leave")
             )
 
+        # Prevent leave requests for past dates
+
+        today = date.today().isoformat()
+
+        if start_date < today:
+
+            flash("Leave cannot be requested for a past date.","danger")
+
+            return redirect(
+                url_for("leave")
+            )   
+
         # Check for overlapping leave
 
         if has_overlapping_leave(
@@ -364,7 +376,8 @@ def leave():
         leave_requests=leave_requests,
         search_employee_id=search_employee_id,
         search_status=search_status,
-        search_leave_type=search_leave_type
+        search_leave_type=search_leave_type,
+        today=date.today().isoformat()
     )
 
 @app.route("/approve_leave/<int:id>")
