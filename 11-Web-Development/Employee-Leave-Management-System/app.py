@@ -83,10 +83,12 @@ def login():
 
             session["role"] = str(user["role"]).lower()
 
+            flash("Login successful.", "success")
+
             return redirect(
                 url_for("home")
             )
-
+        flash("Invalid username or password.", "danger")
         return render_template(
             "login.html",
             error="Invalid username or password"
@@ -176,6 +178,8 @@ def add_employee_page():
             department
         )
 
+        flash("Employee added successfully.", "success")
+
         return redirect(url_for("employees"))
 
     return render_template("add_employee.html")
@@ -210,6 +214,8 @@ def edit(id):
             department
         )
 
+        flash("Employee updated successfully.", "success")
+
         return redirect(url_for("employees"))
 
     return render_template(
@@ -231,6 +237,8 @@ def delete(id):
         return "Access Denied: Admins only", 403
     
     delete_employee(id)
+
+    flash("Employee deleted successfully.", "success")
 
     return redirect(url_for("employees"))
 
