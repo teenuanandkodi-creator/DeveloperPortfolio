@@ -163,14 +163,44 @@ def add_employee_page():
     if not is_admin():
 
         return "Access Denied: Admins only", 403
-    
+
     if request.method == "POST":
 
-        employee_id = request.form["employee_id"]
+        employee_id = request.form["employee_id"].strip()
 
-        name = request.form["name"]
+        name = request.form["name"].strip()
 
-        department = request.form["department"]
+        department = request.form["department"].strip()
+
+        # Validate required fields
+
+        if not employee_id or not name or not department:
+
+            flash(
+                "All employee fields are required.",
+                "danger"
+            )
+
+            return render_template(
+                "add_employee.html"
+            )
+
+        # Check duplicate Employee ID
+
+        existing_employee = get_employee_by_employee_id(
+            employee_id
+        )
+
+        if existing_employee:
+
+            flash(
+                "Employee ID already exists.",
+                "danger"
+            )
+
+            return render_template(
+                "add_employee.html"
+            )
 
         add_employee(
             employee_id,
@@ -178,11 +208,18 @@ def add_employee_page():
             department
         )
 
-        flash("Employee added successfully.", "success")
+        flash(
+            "Employee added successfully.",
+            "success"
+        )
 
-        return redirect(url_for("employees"))
+        return redirect(
+            url_for("employees")
+        )
 
-    return render_template("add_employee.html")
+    return render_template(
+        "add_employee.html"
+    )
 
 @app.route("/edit/<int:id>", methods=["GET", "POST"])
 def edit(id):
@@ -196,16 +233,59 @@ def edit(id):
     if not is_admin():
 
         return "Access Denied: Admins only", 403
-    
+
     employee = get_employee_by_id(id)
+
+    if not employee:
+
+        flash(
+            "Employee not found.",
+            "danger"
+        )
+
+        return redirect(
+            url_for("employees")
+        )
 
     if request.method == "POST":
 
-        employee_id = request.form["employee_id"]
+        employee_id = request.form["employee_id"].strip()
 
-        name = request.form["name"]
+        name = request.form["name"].strip()
 
-        department = request.form["department"]
+        department = request.form["department"].strip()
+
+        # Validate required fields
+
+        if not employee_id or not name or not department:
+
+            flash(
+                "All employee fields are required.",
+                "danger"
+            )
+
+            return render_template(
+                "edit_employee.html",
+                employee=employee
+            )
+
+        # Check duplicate Employee ID
+
+        existing_employee = get_employee_by_employee_id(
+            employee_id
+        )
+
+        if existing_employee and existing_employee["id"] != id:
+
+            flash(
+                "Employee ID already exists.",
+                "danger"
+            )
+
+            return render_template(
+                "edit_employee.html",
+                employee=employee
+            )
 
         update_employee(
             id,
@@ -214,9 +294,14 @@ def edit(id):
             department
         )
 
-        flash("Employee updated successfully.", "success")
+        flash(
+            "Employee updated successfully.",
+            "success"
+        )
 
-        return redirect(url_for("employees"))
+        return redirect(
+            url_for("employees")
+        )
 
     return render_template(
         "edit_employee.html",
