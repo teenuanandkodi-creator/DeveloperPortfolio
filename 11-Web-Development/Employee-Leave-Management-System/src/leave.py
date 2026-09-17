@@ -213,3 +213,23 @@ def has_overlapping_leave(employee_id, start_date, end_date):
     connection.close()
 
     return existing_leave is not None
+
+def get_leave_history_by_employee(employee_id):
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        SELECT *
+        FROM leave_requests
+        WHERE employee_id = ?
+        ORDER BY start_date DESC
+        """,
+        (employee_id,)
+    )
+
+    leave_requests = cursor.fetchall()
+
+    connection.close()
+
+    return leave_requests

@@ -61,6 +61,8 @@ def initialize_database():
         role TEXT
     )
     """)
+    connection.commit()
+    connection.close()
 
 def initialize_users():
 

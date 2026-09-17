@@ -18,7 +18,8 @@ from src.leave import (
     get_leave_statistics,
     update_leave_status,
     search_leave_requests,
-    has_overlapping_leave
+    has_overlapping_leave,
+    get_leave_history_by_employee
 )
 
 from src.employee import (
@@ -522,6 +523,29 @@ def reject_leave(id):
     )
 
     return redirect(url_for("leave"))
+
+@app.route("/leave-history/<employee_id>")
+def leave_history(employee_id):
+
+    if not is_logged_in():
+        return redirect(url_for("login"))
+
+    if not is_admin():
+        return "Access Denied: Admins only", 403
+
+    employee = get_employee_by_employee_id(employee_id)
+
+    if not employee:
+        flash("Employee not found.", "danger")
+        return redirect(url_for("employees"))
+
+    leave_requests = get_leave_history_by_employee(employee_id)
+
+    return render_template(
+        "leave_history.html",
+        employee=employee,
+        leave_requests=leave_requests
+    )
 
 @app.route("/about")
 def about():

@@ -86,6 +86,8 @@ Clear
             {% if session.get("role", "")|lower == "admin" %}
 
             <td>
+                <a href="{{ url_for('leave_history', employee_id=employee['employee_id']) }}" class="btn btn-info btn-sm"> History
+                </a>
 
                 <a href="{{ url_for('edit', id=employee['id']) }}" class="btn btn-warning btn-sm"> Edit </a>
 
