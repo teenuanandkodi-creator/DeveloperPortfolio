@@ -1,0 +1,292 @@
+{% extends "base.html" %}
+
+{% block title %}
+Leave Reports
+{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+        <h2>Leave Reports</h2>
+        <p class="text-muted mb-0">
+            Generate and export employee leave reports.
+        </p>
+    </div>
+
+</div>
+
+
+<!-- Filters -->
+
+<div class="card shadow-sm mb-4">
+
+    <div class="card-body">
+
+        <h5 class="card-title mb-3">
+            Report Filters
+        </h5>
+
+        <form method="GET" action="{{ url_for('reports') }}">
+
+            <div class="row g-3">
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+                        Employee ID
+                    </label>
+
+                    <input
+                        type="text"
+                        name="employee_id"
+                        class="form-control"
+                        placeholder="e.g. EMP001"
+                        value="{{ employee_id }}"
+                    >
+
+                </div>
+
+
+                <div class="col-md-3">
+
+                    <label class="form-label">
+                        Status
+                    </label>
+
+                    <select name="status" class="form-select">
+
+                        <option value="">
+                            All Statuses
+                        </option>
+
+                        <option
+                            value="Pending"
+                            {% if status == "Pending" %}selected{% endif %}
+                        >
+                            Pending
+                        </option>
+
+                        <option
+                            value="Approved"
+                            {% if status == "Approved" %}selected{% endif %}
+                        >
+                            Approved
+                        </option>
+
+                        <option
+                            value="Rejected"
+                            {% if status == "Rejected" %}selected{% endif %}
+                        >
+                            Rejected
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="col-md-3">
+
+                    <label class="form-label">
+                        Leave Type
+                    </label>
+
+                    <select name="leave_type" class="form-select">
+
+                        <option value="">
+                            All Leave Types
+                        </option>
+
+                        <option
+                            value="Annual"
+                            {% if leave_type == "Annual" %}selected{% endif %}
+                        >
+                            Annual
+                        </option>
+
+                        <option
+                            value="Sick"
+                            {% if leave_type == "Sick" %}selected{% endif %}
+                        >
+                            Sick
+                        </option>
+
+                        <option
+                            value="Casual"
+                            {% if leave_type == "Casual" %}selected{% endif %}
+                        >
+                            Casual
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="col-md-2 d-flex align-items-end">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary w-100"
+                    >
+                        Generate
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- Summary -->
+
+<div class="alert alert-info">
+
+    <strong>{{ leave_requests|length }}</strong>
+    leave request(s) found.
+
+</div>
+
+
+<!-- Export -->
+
+<div class="mb-3">
+
+    <a
+        href="{{ url_for(
+            'export_reports',
+            employee_id=employee_id,
+            status=status,
+            leave_type=leave_type
+        ) }}"
+        class="btn btn-success"
+    >
+        Export CSV
+    </a>
+
+    <a
+        href="{{ url_for('reports') }}"
+        class="btn btn-secondary"
+    >
+        Clear Filters
+    </a>
+
+</div>
+
+
+<!-- Report Table -->
+
+<div class="card shadow-sm">
+
+    <div class="card-body">
+
+        {% if leave_requests %}
+
+        <div class="table-responsive">
+
+            <table class="table table-striped table-hover align-middle">
+
+                <thead class="table-primary">
+
+                    <tr>
+                        <th>#</th>
+                        <th>Employee ID</th>
+                        <th>Leave Type</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for leave in leave_requests %}
+
+                    <tr>
+
+                        <td>
+                            {{ loop.index }}
+                        </td>
+
+                        <td>
+                            {{ leave["employee_id"] }}
+                        </td>
+
+                        <td>
+                            {{ leave["leave_type"] }}
+                        </td>
+
+                        <td>
+                            {{ leave["start_date"] }}
+                        </td>
+
+                        <td>
+                            {{ leave["end_date"] }}
+                        </td>
+
+                        <td>
+                            {{ leave["reason"] }}
+                        </td>
+
+                        <td>
+
+                            {% if leave["status"] == "Approved" %}
+
+                                <span class="badge bg-success">
+                                    Approved
+                                </span>
+
+                            {% elif leave["status"] == "Rejected" %}
+
+                                <span class="badge bg-danger">
+                                    Rejected
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-warning text-dark">
+                                    Pending
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <div class="text-center py-5">
+
+            <h5>No Leave Requests Found</h5>
+
+            <p class="text-muted">
+                Try changing the report filters.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

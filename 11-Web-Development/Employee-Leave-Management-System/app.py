@@ -35,6 +35,12 @@ from src.employee import (
     get_employee_by_employee_id
     
 )
+
+from src.report import (
+    get_leave_report,
+    create_leave_csv
+)
+
 from datetime import date
 from src.auth import authenticate_user
 
@@ -546,6 +552,66 @@ def leave_history(employee_id):
         employee=employee,
         leave_requests=leave_requests
     )
+
+@app.route("/reports")
+def reports():
+
+    if not is_logged_in():
+        return redirect(url_for("login"))
+
+    if not is_admin():
+        return "Access Denied: Admins only", 403
+
+    employee_id = request.args.get("employee_id", "").strip()
+    status = request.args.get("status", "").strip()
+    leave_type = request.args.get("leave_type", "").strip()
+
+    leave_requests = get_leave_report(
+        employee_id,
+        status,
+        leave_type
+    )
+
+    return render_template(
+        "reports.html",
+        leave_requests=leave_requests,
+        employee_id=employee_id,
+        status=status,
+        leave_type=leave_type
+    )
+
+@app.route("/reports/export")
+def export_reports():
+
+    if not is_logged_in():
+        return redirect(url_for("login"))
+
+    if not is_admin():
+        return "Access Denied: Admins only", 403
+
+    employee_id = request.args.get("employee_id", "").strip()
+    status = request.args.get("status", "").strip()
+    leave_type = request.args.get("leave_type", "").strip()
+
+    leave_requests = get_leave_report(
+        employee_id,
+        status,
+        leave_type
+    )
+
+    csv_data = create_leave_csv(leave_requests)
+
+    response = app.response_class(
+        csv_data,
+        mimetype="text/csv"
+    )
+
+    response.headers["Content-Disposition"] = (
+        "attachment; filename=leave_report.csv"
+    )
+
+    return response
+
 
 @app.route("/about")
 def about():
