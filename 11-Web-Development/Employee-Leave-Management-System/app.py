@@ -168,8 +168,7 @@ def add_employee_page():
         )
 
     if not is_admin():
-
-        return "Access Denied: Admins only", 403
+        return render_template("403.html"), 403
 
     if request.method == "POST":
 
@@ -238,8 +237,7 @@ def edit(id):
         )
 
     if not is_admin():
-
-        return "Access Denied: Admins only", 403
+        return render_template("403.html"), 403
 
     employee = get_employee_by_id(id)
 
@@ -325,8 +323,7 @@ def delete(id):
         )
 
     if not is_admin():
-
-        return "Access Denied: Admins only", 403
+        return render_template("403.html"), 403
     
     delete_employee(id)
 
@@ -490,8 +487,7 @@ def approve_leave(id):
         )
 
     if not is_admin():
-
-        return "Access Denied: Admins only", 403
+        return render_template("403.html"), 403
     
     update_leave_status(
         id,
@@ -515,9 +511,8 @@ def reject_leave(id):
         )
 
     if not is_admin():
-
-        return "Access Denied: Admins only", 403
-
+        return render_template("403.html"), 403
+    
     update_leave_status(
         id,
         "Rejected"
@@ -537,7 +532,7 @@ def leave_history(employee_id):
         return redirect(url_for("login"))
 
     if not is_admin():
-        return "Access Denied: Admins only", 403
+        return render_template("403.html"), 403
 
     employee = get_employee_by_employee_id(employee_id)
 
@@ -560,7 +555,7 @@ def reports():
         return redirect(url_for("login"))
 
     if not is_admin():
-        return "Access Denied: Admins only", 403
+        return render_template("403.html"), 403
 
     employee_id = request.args.get("employee_id", "").strip()
     status = request.args.get("status", "").strip()
@@ -587,7 +582,7 @@ def export_reports():
         return redirect(url_for("login"))
 
     if not is_admin():
-        return "Access Denied: Admins only", 403
+        return render_template("403.html"), 403
 
     employee_id = request.args.get("employee_id", "").strip()
     status = request.args.get("status", "").strip()
@@ -625,6 +620,20 @@ def about():
     return render_template(
         "about.html"
     )
+
+@app.errorhandler(403)
+def forbidden(error):
+    return render_template("403.html"), 403
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template("404.html"), 404
+
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    return render_template("500.html"), 500
 
 
 if __name__ == "__main__":
