@@ -9,7 +9,8 @@ from flask import (
 )
 from src.database import (
      initialize_database,
-     initialize_users
+     initialize_users,
+     migrate_passwords_to_hashes
 )
 
 from src.leave import (
@@ -65,6 +66,8 @@ def is_employee():
 initialize_database()
 
 initialize_users()
+
+migrate_passwords_to_hashes()
 
 insert_sample_data()
 
